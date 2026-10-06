@@ -25,7 +25,8 @@ import org.springframework.batch.infrastructure.item.file.builder.FlatFileItemRe
 import org.springframework.batch.infrastructure.item.support.builder.SynchronizedItemStreamReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -34,10 +35,10 @@ import javax.sql.DataSource;
 public class EstadoCuentaBatchConfig {
 
     @Bean
-    public ItemReader<CuentaAnualDTO> cuentaAnualReader() {
+    public ItemReader<CuentaAnualDTO> cuentaAnualReader(@Value("${batch.input.cuentas-anuales:classpath:input/cuentas_anuales.csv}") Resource input) {
         var delegate = new FlatFileItemReaderBuilder<CuentaAnualDTO>()
                 .name("cuentaAnualReader")
-                .resource(new ClassPathResource("input/cuentas_anuales.csv"))
+                .resource(input)
                 .linesToSkip(1)
                 .delimited()
                 .names("cuentaId", "fecha", "transaccion", "monto", "descripcion")

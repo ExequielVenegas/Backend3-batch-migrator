@@ -25,7 +25,8 @@ import org.springframework.batch.infrastructure.item.file.builder.FlatFileItemRe
 import org.springframework.batch.infrastructure.item.support.builder.SynchronizedItemStreamReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -34,10 +35,10 @@ import javax.sql.DataSource;
 public class InteresBatchConfig {
 
     @Bean
-    public ItemReader<InteresDTO> interesReader() {
+    public ItemReader<InteresDTO> interesReader(@Value("${batch.input.intereses:classpath:input/intereses.csv}") Resource input) {
         var delegate = new FlatFileItemReaderBuilder<InteresDTO>()
                 .name("interesReader")
-                .resource(new ClassPathResource("input/intereses.csv"))
+                .resource(input)
                 .linesToSkip(1)
                 .delimited()
                 .names("cuentaId", "nombre", "saldo", "edad", "tipo")

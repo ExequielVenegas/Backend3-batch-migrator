@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS transacciones_diarias;
 
 CREATE TABLE IF NOT EXISTS transacciones_diarias
 (

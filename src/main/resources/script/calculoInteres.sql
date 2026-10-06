@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS calculo_intereses;
 
 CREATE TABLE IF NOT EXISTS calculo_intereses
 (

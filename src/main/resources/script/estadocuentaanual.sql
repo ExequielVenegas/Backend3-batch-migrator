@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS estado_cuenta_anual;
 
 CREATE TABLE IF NOT EXISTS estado_cuenta_anual
 (

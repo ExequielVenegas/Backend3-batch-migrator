@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Credenciales y certificados locales
+.env
+.env.*
+!.env.example
+*.p12
+*.jks
+secrets/
