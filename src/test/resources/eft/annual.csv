@@ -1,0 +1,7 @@
+cuenta_id,fecha,transaccion,monto,descripcion
+1,2024-02-29,deposito,100,Ingreso
+1,29/02/2023,retiro,200,Retiro
+2,2024/03/05,pago,50,Servicio
+2,2024-01-01,compra,100,
+3,2024-01-01,retiro,-10,Retiro
+4,2024-01-01,invalido,100,Algo

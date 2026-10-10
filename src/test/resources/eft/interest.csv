@@ -1,0 +1,10 @@
+cuenta_id,nombre,saldo,edad,tipo
+1,Ana,1000,30,ahorro
+2,Luis,2000,40,prestamo
+3,Eva,3000,50,hipoteca
+4,Leo,100,30,ahorro
+4,Leo,200,30,ahorro
+5,Luz,-1,30,ahorro
+6,Paz,100,150,ahorro
+7,Sol,0.50,20,ahorro
+8,Mar,1.001,20,ahorro

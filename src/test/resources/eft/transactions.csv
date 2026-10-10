@@ -1,0 +1,7 @@
+id,fecha,monto,tipo
+1,2024-02-29,100,credito
+2,29/02/2023,200,debito
+3,2024/03/05,50,debito
+4,,100,credito
+5,2024-01-01,-10,debito
+6,2024-01-01,100,invalido
