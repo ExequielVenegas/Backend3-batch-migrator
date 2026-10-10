@@ -39,3 +39,18 @@ build/
 *.p12
 *.jks
 secrets/
+
+# Diagnosticos y secretos locales
+*.log
+.env
+secrets/
+
+# Archivos locales y credenciales
+**/secrets/
+**/*.log
+**/*.pem
+**/*.key
+**/*.p12
+**/*.jks
+**/target/
+**/.trabajo/

@@ -31,6 +31,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
+@org.springframework.context.annotation.Profile("!eft")
 @Configuration
 public class TransaccionBatchConfig {
 
@@ -96,3 +97,4 @@ public class TransaccionBatchConfig {
                 .build();
     }
 }
+

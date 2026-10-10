@@ -1,28 +1,23 @@
-# Batch Migrator: MySQL local
+# Migración batch
 
-Proceso puntual de carga ETL. Se ejecuta en el PC, lee CSV y escribe en MySQL;
-no se despliega en EC2 ni se arranca automáticamente con el Compose de servicios.
-Los datos existentes ya permiten probar Account y los BFF.
+Procesa transacciones diarias, intereses mensuales y estados anuales desde CSV con Spring Batch. Conserva trazabilidad, rechazos y metadatos de ejecución.
 
-## Jobs y destinos
+## Participación en el proyecto
 
-| Job | Entrada predeterminada | Tabla destino |
-|---|---|---|
-| reporteTransaccionesJob | input/transacciones.csv | transacciones_diarias |
-| calculoInteresesJob | input/intereses.csv | calculo_intereses |
-| generacionEstadosCuentaJob | input/cuentas_anuales.csv | estado_cuenta_anual |
+| Aspecto | Función |
+|---|---|
+| Entrada | CSV locales |
+| Salida | MySQL y reportes ETL |
+| Ejecución | Java local, ejecución puntual |
 
-Las entradas predeterminadas son recursos classpath. Para CSV externos se
-configuran batch.input.transacciones, batch.input.intereses y
-batch.input.cuentas-anuales con una ubicación file:. Elegir explícitamente
-spring.batch.job.name; el job por defecto actual es generacionEstadosCuentaJob.
-No ejecutar el JAR sin revisar el job y sus parámetros, porque el arranque
-habilita la ejecución batch.
+## Flujo completo
 
-## Compilar y probar
+Los CSV se procesan localmente con Spring Batch y sus resultados se guardan en MySQL. Los datos históricos permanecen disponibles; las asociaciones revisadas permiten crear cuentas modernas con trazabilidad al archivo de origen.
 
-Requisitos: JDK 21+ y Maven Wrapper incluido.
+El cliente obtiene un JWT en Auth Server y accede por HTTPS a su BFF (Web, Móvil o Cajero). El BFF valida el token y sus permisos, adapta la respuesta y descubre los servicios mediante Eureka. Customer administra perfiles; Account administra cuentas, saldos y movimientos; Payment administra órdenes de pago.
 
-```powershell
-.\mvnw.cmd clean package
-```
+Para una operación monetaria, el BFF envía la orden a Payment, que guarda la orden y su outbox. Kafka en AWS transporta el comando hasta Account. Account aplica los movimientos en una transacción de MySQL y publica el resultado mediante su outbox. Payment consume el resultado y la consulta del BFF informa APLICADO o RECHAZADO. La clave de idempotencia evita repetir el efecto de una misma operación. El flujo de solicitudes de estado de cuenta se publica directamente desde BFF Web hacia Kafka y lo consume Account.
+
+Config Server centraliza propiedades y Resilience4j limita los fallos en llamadas HTTP. Docker Compose ejecuta los servicios locales; MySQL y el batch permanecen en el PC. AWS aloja únicamente Kafka, en modo KRaft.
+
+El archivo de intereses conserva su nombre original, pero su cálculo se interpreta como mensual. Los registros ambiguos quedan pendientes de conciliación y no actualizan automáticamente saldos operativos.
